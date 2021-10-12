@@ -7,6 +7,7 @@ import dotenv from "dotenv"
 const PORT = process.env.PORT
 import { userrouter } from "./routes/users.js"
 import { managerrouter } from "./routes/manager.js"
+import { moviesrouter } from "./routes/movies.js"
 dotenv.config()
 const users = [
     {
@@ -96,9 +97,11 @@ const users = [
 app.use(express.json())
 
 
+
 app.use("/manager", managerrouter);
 
 app.use("/users", userrouter)
+app.use("/movies", moviesrouter)
 
 app.get('/', function (req, res) {
     res.send("home")

@@ -10,6 +10,10 @@ async function addusers(client, data) {
     return await client.db("users").collection("people").insertMany(data)
 }
 
+async function addmovies(client, addmovies) {
+    return await client.db("users").collection("movies").insertMany(addmovies)
+}
+
 async function edituserbyid(client, id) {
     return await client.db("users").collection("people").deleteOne({ id: id })
 }
@@ -28,6 +32,10 @@ function getmanagers(client) {
 
 async function getallusers(client) {
     return await client.db("users").collection("people").find({}).toArray()
+}
+
+async function getmovies(client) {
+    return await client.db("users").collection("movies").find({}).toArray()
 }
 
 
@@ -64,5 +72,8 @@ export {
     sendsignupmanager,
     getmanagers,
     getallusers,
-    genpass
+    genpass,
+    addmovies,
+    getmovies
+
 }

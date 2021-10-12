@@ -16,35 +16,35 @@ console.log(os.totalmem())
 
 console.log(os.arch())
 
-fs.readFile("./nice.txt", "utf8", async (err, data) => {
-    await console.log(data, "1")
+fs.readFile("./nice.txt", "utf8", (err, data) => {
+    console.log(data, "1")
 })
 
 const data = fs.readFileSync("./nice.txt", "utf8")
 console.log(data)
 
-// fs.appendFile("./nice.txt", "good night", (err) => {
-//     if (err) throw err
-//     console.log("updated")
-// })
+fs.appendFile("./nice.txt", "good night", (err) => {
+    if (err) throw err
+    console.log("updated")
+})
 
-// fs.copyFile("./nice.txt", "./good.txt", (err) => {
-//     if (err) {
-//         console.log("Error Found:", err);
-//     }
-// });
+fs.copyFile("./nice.txt", "./good.txt", (err) => {
+    if (err) {
+        console.log("Error Found:", err);
+    }
+});
 
-// fs.renameSync("./good.txt", "./awesome.txt")
+fs.renameSync("./good.txt", "./awesome.txt")
 
 
-// fs.rename("./awesome.txt", "./copied_file.txt", (err) => {
-//     if (err) {
-//         console.log("Error Found:", err);
-//     }
-//     else {
-//         console.log("done");
-//     }
-// })
+fs.rename("./awesome.txt", "./copied_file.txt", (err) => {
+    if (err) {
+        console.log("Error Found:", err);
+    }
+    else {
+        console.log("done");
+    }
+})
 
 // Task
 // Add Good night
