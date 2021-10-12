@@ -1,10 +1,12 @@
 import express from "express"
-import { Collection, MongoClient } from "mongodb"
-const app = express()
+import { Collection } from "mongodb"
+export const app = express()
 import dotenv from "dotenv"
 
-const PORT = process.env.PORT
 
+const PORT = process.env.PORT
+import { userrouter } from "./routes/users.js"
+import { managerrouter } from "./routes/manager.js"
 dotenv.config()
 const users = [
     {
@@ -89,102 +91,18 @@ const users = [
     }
 ]
 
-async function createconnection() {
-    // const MONGO_URL = "mongodb://localhost/users"
-    const MONGO_URL = process.env.MONGO_URL;
 
-    const client = new MongoClient(MONGO_URL);
-    await client.connect();
-    console.log("Sucessfully connected")
-    // const insertdata = await client.db("users").collection("people").insertMany(users)
-    return client
-
-    const user = await client
-    //     .db("users").collection("people").findOne({ id: "5" })
-    // console.log(user)
-}
-createconnection()
 
 app.use(express.json())
 
 
+app.use("/manager", managerrouter);
 
-
-
-app.get('/users', async function (req, res) {
-    var client = await createconnection();
-
-    var { color, agegt } = req.query;
-    if (color && agegt) {
-        const user = await client.db("users").collection("people").find({ age: { $gt: parseInt(agegt) } }, { color: color }).toArray()
-
-        res.send(user)
-        // res.send(users.filter(data => data.color == (color) && data.age >= (age)))
-    }
-    else if (color) {
-        const user = await client.db("users").collection("people").find({ color: color }).toArray()
-        res.send(user)
-        // res.send(users.filter(data => data.color === (color)))
-    }
-    else if (agegt) {
-        const user = await client.db("users").collection("people").find({ age: { $gt: parseInt(agegt) } }).toArray()
-        res.send(user)
-    }
-    else {
-        const user = await client.db("users").collection("people").find({}).toArray()
-        res.send(user)
-
-    }
-})
-
-
-app.patch("/users/:id", async (req, res) => {
-    console.log(req.body)
-    const { id } = req.params
-    const client = await createconnection()
-    const newdata = req.body;
-    console.log(id, newdata)
-    const user = await client.db("users").collection("people").updateOne({ id: id }, { $set: newdata });
-    console.log(user)
-    res.send(user)
-})
-
-app.delete("/users/:id", async (req, res) => {
-    console.log(req.params)
-    const { id } = req.params;
-
-    var client = await createconnection();
-    const user = await client.db("users").collection("people").deleteOne({ id: id })
-    console.log(user)
-
-    res.send(user)
-})
-
-app.post("/users", async (req, res) => {
-    const client = await createconnection();
-    console.log(req.body)
-    var data = req.body
-    const user = await client.db("users").collection("people").insertMany(data);
-    res.send(user)
-
-});
-
-app.get("/users/:id", async (req, res) => {
-    var { q } = req.query;
-    const { id } = req.params;
-    var client = await createconnection();
-    const user = await client.db("users").collection("people").findOne({ id: id })
-    console.log(user)
-
-    res.send(user)
-})
-
+app.use("/users", userrouter)
 
 app.get('/', function (req, res) {
     res.send("home")
 })
 
-
-app.listen(3000, () => console.log("dtarted server"))
-
+app.listen(process.env.PORT || 5000, () => console.log("started"))
 
