@@ -13,7 +13,7 @@ import {
 import auth from "../middleware/auth.js"
 import jwt from "jsonwebtoken"
 
-router.get('', auth, async function (req, res) {
+router.get('', async function (req, res) {
     var client = await createconnection();
 
     var { color, agegt } = req.query;
